@@ -33,7 +33,7 @@ public class ObjectPool : MonoBehaviour {
 	}
 
 
-    protected virtual void ActivateObj(Vector3 position, Quaternion rotation)
+    public void ActivateObj(Vector3 position, Quaternion rotation)
     {
         if (inactiveObjects.Count <= 0)
         {
@@ -50,7 +50,7 @@ public class ObjectPool : MonoBehaviour {
         inactiveObjects.Dequeue();
     }
 
-    public virtual void DeactivateObj()
+    public void DeactivateObj()
     {
         inactiveObjects.Enqueue(activeObjects.Peek());
         activeObjects.Dequeue();
