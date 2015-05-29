@@ -9,7 +9,7 @@ public class ObjectPool : MonoBehaviour {
     [SerializeField]
     private int numOfObjectsToLoadOnStart;
 
-    protected Queue<GameObject> activeObjects, inactiveObjects;
+    private Queue<GameObject> activeObjects, inactiveObjects;
 
 	void Awake() {
         activeObjects = new Queue<GameObject>();
@@ -24,7 +24,7 @@ public class ObjectPool : MonoBehaviour {
             }
 
             GameObject newObj = (GameObject)Instantiate(ObjectPrefab[arrIndex], Vector3.zero, Quaternion.identity);
-            newObj.GetComponent<IPoolObject>().Initialize(this);
+            newObj.GetComponent<PoolObject>().Initialize(this);
             newObj.SetActive(false);
             inactiveObjects.Enqueue(newObj);
 
@@ -38,13 +38,13 @@ public class ObjectPool : MonoBehaviour {
         if (inactiveObjects.Count <= 0)
         {
             GameObject objToActivate = (GameObject)Instantiate(ObjectPrefab[Random.Range(0, ObjectPrefab.Length - 1)], Vector3.zero, Quaternion.identity);
-            objToActivate.GetComponent<IPoolObject>().Initialize(this);
+            objToActivate.GetComponent<PoolObject>().Initialize(this);
             objToActivate.SetActive(false);
             inactiveObjects.Enqueue(objToActivate);
         }
 
         inactiveObjects.Peek().SetActive(true);
-        inactiveObjects.Peek().GetComponent<IPoolObject>().Activate(position, rotation);
+        inactiveObjects.Peek().GetComponent<PoolObject>().Activate(position, rotation);
         activeObjects.Enqueue(inactiveObjects.Peek());
 
         inactiveObjects.Dequeue();
