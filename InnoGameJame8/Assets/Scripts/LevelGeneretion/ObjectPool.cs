@@ -33,7 +33,7 @@ public class ObjectPool : MonoBehaviour {
                 arrIndex = Random.Range(0, ObjectPrefab.Length - 1);
             }
 
-            GameObject newObj = (GameObject)Instantiate(ObjectPrefab[arrIndex], Vector3.zero, Quaternion.identity);
+            GameObject newObj = (GameObject)Instantiate(ObjectPrefab[arrIndex], Vector3.zero, ObjectPrefab[arrIndex].transform.rotation);
             newObj.GetComponent<PoolObject>().Initialize(this);
             newObj.SetActive(false);
             inactiveObjects.Enqueue(newObj);
@@ -47,7 +47,7 @@ public class ObjectPool : MonoBehaviour {
     {
         if (inactiveObjects.Count <= 0)
         {
-            GameObject objToActivate = (GameObject)Instantiate(ObjectPrefab[Random.Range(0, ObjectPrefab.Length - 1)], Vector3.zero, Quaternion.identity);
+            GameObject objToActivate = (GameObject)Instantiate(ObjectPrefab[Random.Range(0, ObjectPrefab.Length - 1)], Vector3.zero, ObjectPrefab[Random.Range(0, ObjectPrefab.Length - 1)].transform.rotation);
             objToActivate.GetComponent<PoolObject>().Initialize(this);
             objToActivate.SetActive(false);
             inactiveObjects.Enqueue(objToActivate);

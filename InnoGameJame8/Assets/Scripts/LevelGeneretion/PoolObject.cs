@@ -4,13 +4,13 @@ using System.Collections;
 public class PoolObject : MonoBehaviour
 {
     [SerializeField]
-    private float speed;
+    protected float speed;
 
     private ObjectPool myPool;
 
-    private float spawnDistance;
+    protected float spawnDistance;
 
-    private float distance;
+    protected float distance;
 
     private bool spawnedNew;
 
@@ -18,7 +18,6 @@ public class PoolObject : MonoBehaviour
     {
         if (distance > spawnDistance & !spawnedNew)
         {
-            Debug.Log("Spawn");
             myPool.SpawnNew();
             spawnedNew = true;
         }
@@ -32,7 +31,7 @@ public class PoolObject : MonoBehaviour
         distance += fixedSpeed;
     }
 
-    public virtual void Initialize(ObjectPool myPool)
+    public void Initialize(ObjectPool myPool)
     {
         this.myPool = myPool;
     }
