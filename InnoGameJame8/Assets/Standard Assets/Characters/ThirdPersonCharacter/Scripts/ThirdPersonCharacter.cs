@@ -30,12 +30,19 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		Vector3 m_CapsuleCenter;
 		CapsuleCollider m_Capsule;
 		bool m_Crouching;
+        bool m_Running;
 
         public delegate void Jump();
         public event Jump OnJump;
-        public event Jump OnLand;
-        public Event StartRunning;
-        public Event StopRunning;
+
+        public delegate void Land();
+        public event Land OnLand;
+
+        public delegate void StartRunning();
+        public event StartRunning OnStartRunning;
+
+        public delegate void StopRunning();
+        public event StopRunning OnStopRunning;
 
 		void Start()
 		{
@@ -116,11 +123,28 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			if (m_IsGrounded && move.magnitude > 0)
 			{
 				m_Animator.speed = m_AnimSpeedMultiplier;
+
+                if (!m_Running)
+                {
+                    if (OnStartRunning != null)
+                    {
+                        OnStartRunning();
+                    }
+
+                    m_Running = true;
+                }
 			}
 			else
 			{
 				// don't use that while airborne
 				m_Animator.speed = 1;
+
+                if (OnStopRunning != null && m_Running)
+                {
+                    OnStopRunning();
+
+                    m_Running = false;
+                }
 			}
 		}
 
@@ -178,11 +202,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
 				m_Animator.applyRootMotion = true;
-
-                if (OnLand != null)
-                {
-                    OnLand();
-                }
 			}
 			else
 			{
@@ -191,5 +210,16 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_Animator.applyRootMotion = false;
 			}
 		}
+
+        void OnCollisionEnter(Collision other)
+        {
+            if (other.gameObject.tag == "Ground")
+            {
+                if (OnLand != null)
+                {
+                    OnLand();
+                }
+            }
+        }
 	}
 }

@@ -31,7 +31,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             m_Character = GetComponent<ThirdPersonCharacter>();
 
             m_Character.OnJump += JumpD;
-            m_Character.OnJump += LandD;
+            m_Character.OnLand += LandD;
+            m_Character.OnStartRunning += StartRun;
+            m_Character.OnStopRunning += StopRun;
         }
 
 
@@ -76,7 +78,17 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         public void LandD()
         {
-            Debug.Log("RunFired");
+            Debug.Log("LandFired");
+        }
+
+        public void StartRun()
+        {
+            Debug.Log("StartRunning fired");
+        }
+
+        public void StopRun()
+        {
+            Debug.Log("StopRunning fired");
         }
     }
 }
