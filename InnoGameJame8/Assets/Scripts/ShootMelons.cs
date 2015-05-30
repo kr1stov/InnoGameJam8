@@ -9,6 +9,9 @@ public class ShootMelons : MonoBehaviour {
     [SerializeField]
     private float power;
 
+    [SerializeField]
+    private float explosionPower;
+
     private Vector3 distanceVector;
 
     [SerializeField]
@@ -29,7 +32,9 @@ public class ShootMelons : MonoBehaviour {
             {
                 distanceVector = target.position - m.transform.position;
                 distanceVector.Normalize();
+                //m.GetComponent<Rigidbody>().AddExplosionForce(explosionPower, transform.position, 1);
                 m.GetComponent<Rigidbody>().AddForce(distanceVector * power, ForceMode.Impulse);
+                //m.GetComponent<Rigidbody>().AddTorque(distanceVector * power, ForceMode.Impulse);
             }
             
             
