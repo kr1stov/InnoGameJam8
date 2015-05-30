@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
- //[ExecuteInEditMode]
 public class WeaponControl : MonoBehaviour {
 
     [SerializeField]
@@ -11,10 +10,10 @@ public class WeaponControl : MonoBehaviour {
     Transform leftHand;
 
     [SerializeField]
-    GameObject weapon;
+    GameObject weaponPrefab;
 
-    GameObject weaponLeft;
-    GameObject weaponRight;
+    private GameObject weaponLeft;
+    private GameObject weaponRight;
 
     // Use this for initialization
 	void Start () {
@@ -32,13 +31,13 @@ public class WeaponControl : MonoBehaviour {
 
     public void AttachWeapons()
     {
-        AttachWeaponToHand(this.weaponLeft, this.leftHand);
-        AttachWeaponToHand(this.weaponRight, this.rightHand);
+        AttachWeaponToHand(out this.weaponLeft, this.leftHand);
+        AttachWeaponToHand(out this.weaponRight, this.rightHand);
     }
 
-    public void AttachWeaponToHand(GameObject weapon, Transform slot)
+    public void AttachWeaponToHand(out GameObject weapon, Transform slot)
     {
-        weapon = Instantiate(this.weapon, slot.position, slot.rotation) as GameObject;
+        weapon = Instantiate(this.weaponPrefab, slot.position, slot.rotation) as GameObject;
         //this.weaponRight.transform.parent = this.rightHand;
         weapon.GetComponent<SpringJoint>().connectedBody = slot.GetComponent<Rigidbody>();
     }
