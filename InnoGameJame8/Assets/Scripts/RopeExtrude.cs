@@ -17,35 +17,42 @@ public class RopeExtrude : MonoBehaviour {
     // Use this for initialization
 	void Start () {
         this.myMesh = gameObject.GetComponent<MeshFilter>().mesh;
-        this.myVertices = myMesh.vertices;
+        this.myVertices = this.myMesh.vertices;
 
         MakeGizmoGameObjects();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        Reshape();
+        //Reshape();
 	}
 
     void OnDrawGizmos()
     {
-        for (int i = 0; i < gizmoGameObjects.Length; i++)
+        if (this.gizmoGameObjects == null)
         {
-            Gizmos.DrawWireCube(gizmoGameObjects[i].transform.position, new Vector3(gizmoSize, gizmoSize, gizmoSize));
+            MakeGizmoGameObjects();
+        }
+
+        Gizmos.color = Color.yellow;
+
+        for (int i = 0; i < this.gizmoGameObjects.Length; i++)
+        {
+            Gizmos.DrawWireCube(/*transform.position + */this.gizmoGameObjects[i].transform.position, new Vector3(gizmoSize, gizmoSize, gizmoSize));
         }
     }
 
     void MakeGizmoGameObjects()
     {
-        gizmoGameObjects = new GameObject[this.myVertices.Length];
+        this.gizmoGameObjects = new GameObject[this.myVertices.Length];
 
-        for (int i = 0; i < gizmoGameObjects.Length; i++)
+        for (int i = 0; i < this.gizmoGameObjects.Length; i++)
         {
             GameObject temp = new GameObject(gameObject.name + "_Vertex_" + i);
-            //temp.transform.parent = gameObject.transform;
-            temp.transform.position = myVertices[i];
+            temp.transform.parent = transform;
+            temp.transform.position = this.myVertices[i]+transform.position;
 
-            gizmoGameObjects[i] = temp;
+            this.gizmoGameObjects[i] = temp;
         }
     }
 
