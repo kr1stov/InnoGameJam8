@@ -34,10 +34,18 @@ public class ObjectPool : MonoBehaviour {
             }
 
             GameObject newObj = (GameObject)Instantiate(ObjectPrefab[arrIndex], Vector3.zero, ObjectPrefab[arrIndex].transform.rotation);
-            newObj.GetComponent<PoolObject>().Initialize(this);
-            newObj.SetActive(false);
-            inactiveObjects.Enqueue(newObj);
+            GameObject parObj = (GameObject)Instantiate(newObj);
 
+            Destroy(newObj.GetComponent<PoolObject>());
+            Destroy(newObj.GetComponent<Rigidbody>());
+            Destroy(newObj.GetComponent<BoxCollider>());
+
+            parObj.GetComponent<PoolObject>().Initialize(this);
+            parObj.transform.rotation = new Quaternion(0,0,0,0);
+            newObj.transform.SetParent(parObj.transform);
+            Destroy(parObj.GetComponent<MeshRenderer>());
+
+            inactiveObjects.Enqueue(parObj);
             arrIndex++;
         }
 	}
@@ -47,14 +55,24 @@ public class ObjectPool : MonoBehaviour {
     {
         if (inactiveObjects.Count <= 0)
         {
-            GameObject objToActivate = (GameObject)Instantiate(ObjectPrefab[Random.Range(0, ObjectPrefab.Length - 1)], Vector3.zero, ObjectPrefab[Random.Range(0, ObjectPrefab.Length - 1)].transform.rotation);
-            objToActivate.GetComponent<PoolObject>().Initialize(this);
-            objToActivate.SetActive(false);
-            inactiveObjects.Enqueue(objToActivate);
+            int rand = Random.Range(0, ObjectPrefab.Length - 1);
+            GameObject newObj = (GameObject)Instantiate(ObjectPrefab[rand], Vector3.zero, ObjectPrefab[rand].transform.rotation);
+            GameObject parObj = (GameObject)Instantiate(newObj);
+
+            Destroy(newObj.GetComponent<PoolObject>());
+            Destroy(newObj.GetComponent<Rigidbody>());
+            Destroy(newObj.GetComponent<BoxCollider>());
+
+            parObj.GetComponent<PoolObject>().Initialize(this);
+            parObj.transform.rotation = new Quaternion(0, 0, 0, 0);
+            newObj.transform.SetParent(parObj.transform);
+            Destroy(parObj.GetComponent<MeshRenderer>());
+
+            inactiveObjects.Enqueue(parObj);
         }
 
         inactiveObjects.Peek().SetActive(true);
-        inactiveObjects.Peek().GetComponent<PoolObject>().Activate(position, rotation, SpawnDistance);
+        inactiveObjects.Peek().GetComponent<PoolObject>().Activate(position, SpawnDistance);
         activeObjects.Enqueue(inactiveObjects.Peek());
 
         inactiveObjects.Dequeue();
