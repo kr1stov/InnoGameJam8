@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using System;
+
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
 	[RequireComponent(typeof(Rigidbody))]
@@ -29,6 +31,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		CapsuleCollider m_Capsule;
 		bool m_Crouching;
 
+        public delegate void Jump();
+        public event Jump OnJump;
+        public event Jump OnLand;
+        public Event StartRunning;
+        public Event StopRunning;
 
 		void Start()
 		{
@@ -127,6 +134,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_IsGrounded = false;
 				m_Animator.applyRootMotion = false;
 				m_GroundCheckDistance = 0.5f;
+
+                if (OnJump != null)
+                {
+                    OnJump();
+                }
 			}
 		}
 
@@ -166,6 +178,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
 				m_Animator.applyRootMotion = true;
+
+                if (OnLand != null)
+                {
+                    OnLand();
+                }
 			}
 			else
 			{

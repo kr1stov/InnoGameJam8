@@ -46,12 +46,17 @@ public class WeaponControl : MonoBehaviour {
         //this.weaponRight.transform.parent = this.rightHand;
         weapon.GetComponent<SpringJoint>().connectedBody = slot.GetComponent<Rigidbody>();
 
-        weapon.GetComponent<LineRendererManager>().SetSlot(slot.gameObject);
+        LineRendererManager lrm = weapon.GetComponent<LineRendererManager>();
+        lrm.SetSlot(slot.gameObject);
+        //lrm.vCount = 4;
 
         LineRenderer lr = weapon.GetComponent<LineRenderer>();
-        lr.SetVertexCount(2);
+        //lr.SetVertexCount(lrm.vCount);
+        
         lr.SetPosition(0, slot.position);
     }
+
+
 
 
 }
