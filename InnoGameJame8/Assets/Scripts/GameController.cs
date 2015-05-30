@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour
 
     private float distance;
 
+    public static int Score = 0;
+
     public static float LevelSpeed = 10f;
 
     public static bool GameLoading = true;

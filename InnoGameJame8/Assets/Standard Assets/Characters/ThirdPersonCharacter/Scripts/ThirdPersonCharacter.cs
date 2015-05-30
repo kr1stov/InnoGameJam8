@@ -139,12 +139,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				// don't use that while airborne
 				m_Animator.speed = 1;
 
-                if (OnStopRunning != null)
+                if (OnStopRunning != null && m_Running)
                 {
                     OnStopRunning();
-                }
 
-                m_Running = false;
+                    m_Running = false;
+                }
 			}
 		}
 
