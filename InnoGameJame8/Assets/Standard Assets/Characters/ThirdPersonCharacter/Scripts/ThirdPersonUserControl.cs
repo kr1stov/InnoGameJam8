@@ -29,6 +29,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
             // get the third person character ( this should never be null due to require component )
             m_Character = GetComponent<ThirdPersonCharacter>();
+
+            m_Character.OnJump += JumpD;
+            m_Character.OnLand += LandD;
+            m_Character.OnStartRunning += StartRun;
+            m_Character.OnStopRunning += StopRun;
         }
 
 
@@ -64,6 +69,26 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             // pass all parameters to the character control script
             m_Character.Move(m_Move, m_Jump);
             m_Jump = false;
+        }
+
+        public void JumpD()
+        {
+            Debug.Log("Jump fired");
+        }
+
+        public void LandD()
+        {
+            Debug.Log("LandFired");
+        }
+
+        public void StartRun()
+        {
+            Debug.Log("StartRunning fired");
+        }
+
+        public void StopRun()
+        {
+            Debug.Log("StopRunning fired");
         }
     }
 }
