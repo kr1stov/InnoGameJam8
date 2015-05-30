@@ -17,6 +17,8 @@ ModelImporter:
     3300002: Seil_endstueck
     4300000: Seil_endstueck
     4300002: Melone
+    6400000: Melone
+    6400002: Seil_endstueck
   materials:
     importMaterials: 1
     materialName: 0
@@ -37,8 +39,8 @@ ModelImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 0
-    addColliders: 0
+    meshCompression: 3
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -53,7 +55,7 @@ ModelImporter:
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
-    splitTangentsAcrossUV: 1
+    splitTangentsAcrossUV: 0
     normalImportMode: 0
     tangentImportMode: 1
   importAnimation: 1

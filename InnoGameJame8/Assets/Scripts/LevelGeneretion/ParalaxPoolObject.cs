@@ -2,18 +2,10 @@
 using System.Collections;
 
 public class ParalaxPoolObject : PoolObject {
-    private Quaternion rotation;
 
-    void Awake()
+    public override void Activate(Vector3 position, float distance)
     {
-        rotation = this.transform.rotation;
-    }
-
-    public override void Activate(Vector3 position, Quaternion rotation, float distance)
-    {
-        base.Activate(position, rotation, distance);
-
-        this.transform.rotation = this.rotation;
+        base.Activate(position, distance);
         this.spawnDistance = distance + (this.transform.lossyScale.x*10);
     }
 
@@ -23,10 +15,10 @@ public class ParalaxPoolObject : PoolObject {
 
         if (GameController.GameLoading)
         {
-            fixedSpeed *= GameController.LoadSpeed;
+            fixedSpeed *= GameController.LevelSpeed;
         }
 
-        this.transform.Translate(new Vector3(fixedSpeed, 0, 0));
+        this.transform.Translate(new Vector3(-fixedSpeed, 0, 0));
 
         distance += fixedSpeed;
     }
@@ -35,7 +27,7 @@ public class ParalaxPoolObject : PoolObject {
     {
         if (GameController.GameLoading)
         {
-            GameController.GameLoading = false;
+            GameController.InitializeLevel();
         }
 
         Deactivate();

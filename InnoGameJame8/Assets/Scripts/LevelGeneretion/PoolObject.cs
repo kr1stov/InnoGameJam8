@@ -14,6 +14,8 @@ public class PoolObject : MonoBehaviour
 
     private bool spawnedNew;
 
+    public Quaternion startRotation;
+
     void Update()
     {
         if (distance > spawnDistance & !spawnedNew)
@@ -25,12 +27,7 @@ public class PoolObject : MonoBehaviour
 
     void FixedUpdate()
     {
-        float fixedSpeed = speed * Time.deltaTime;
-
-        if (GameController.GameLoading)
-        {
-            fixedSpeed *= GameController.LoadSpeed;
-        }
+        float fixedSpeed = speed * Time.deltaTime * GameController.LevelSpeed;
 
         this.transform.Translate(new Vector3(-fixedSpeed, 0, 0));
 
@@ -42,10 +39,10 @@ public class PoolObject : MonoBehaviour
         this.myPool = myPool;
     }
 
-    public virtual void Activate(Vector3 position, Quaternion rotation, float distance)
+    public virtual void Activate(Vector3 position, float distance)
     {
         this.transform.position = position;
-        this.transform.rotation = rotation;
+        startRotation = this.transform.rotation;
         this.spawnDistance = distance + (this.transform.lossyScale.x);
     }
 
