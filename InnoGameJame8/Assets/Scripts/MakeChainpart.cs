@@ -10,7 +10,7 @@ public class MakeChainpart : MonoBehaviour {
     private Transform currentParent;
 
     [SerializeField]
-    private GameObject temp;
+    //private GameObject temp;
 
     // Use this for initialization  
 	void Start () {
@@ -21,10 +21,19 @@ public class MakeChainpart : MonoBehaviour {
 	void Update () {
 	    if(Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject temp = Instantiate(partPrefab, currentParent.position + new Vector3(0.06f, 0f, 0f), Quaternion.identity) as GameObject;
-            //temp.transform.parent = currentParent;
-           // temp.transform.position += new Vector3(0.6f, 0f, 0f);
-            temp.GetComponent<Joint>().connectedBody = currentParent.GetComponent<Rigidbody>();
+            currentParent.position += new Vector3(0.06f, 0f, 0f);
+            GameObject temp = Instantiate<GameObject>(partPrefab.gameObject);
+            temp.transform.parent = currentParent;
+            temp.transform.localPosition = new Vector3(0.06f, 0f, 0f);
+            
+            temp.AddComponent<Rigidbody>();
+            HingeJoint hj = temp.AddComponent<HingeJoint>();
+            
+            hj.axis = new Vector3(0, 0, 1);
+            hj.connectedAnchor = new Vector3(0.03f, 0f, 0f);
+            hj.anchor = new Vector3(-0.03f, 0f, 0f);
+
+            hj.connectedBody = currentParent.GetComponent<Rigidbody>();
             
             currentParent = temp.transform;
         }
