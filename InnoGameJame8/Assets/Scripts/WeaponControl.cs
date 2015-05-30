@@ -4,20 +4,25 @@ using System.Collections;
 public class WeaponControl : MonoBehaviour {
 
     [SerializeField]
-    Transform rightHand;
+    private Transform rightHand;
 
     [SerializeField]
-    Transform leftHand;
+    private Transform leftHand;
 
     [SerializeField]
-    GameObject weaponPrefab;
+    private GameObject weaponPrefab;
+
+    [SerializeField]
+    private int melonsPerHand;
 
     private GameObject weaponLeft;
     private GameObject weaponRight;
 
+
+
     // Use this for initialization
 	void Start () {
-        for (int i = 0; i < 10; i++ )
+        for (int i = 0; i < melonsPerHand; i++)
         { 
             AttachWeapons();
         }
