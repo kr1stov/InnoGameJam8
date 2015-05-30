@@ -11,6 +11,16 @@ public class ObjectPool : MonoBehaviour {
 
     private Queue<GameObject> activeObjects, inactiveObjects;
 
+    public Vector3 GetPrefabPosition()
+    {
+        return ObjectPrefab[0].transform.position;
+    }
+
+    public ObjectGenerator objGen { get; set; }
+
+    public float SpawnDistance
+    { get; set; }
+
 	void Awake() {
         activeObjects = new Queue<GameObject>();
         inactiveObjects = new Queue<GameObject>();
@@ -44,7 +54,7 @@ public class ObjectPool : MonoBehaviour {
         }
 
         inactiveObjects.Peek().SetActive(true);
-        inactiveObjects.Peek().GetComponent<PoolObject>().Activate(position, rotation);
+        inactiveObjects.Peek().GetComponent<PoolObject>().Activate(position, rotation, SpawnDistance);
         activeObjects.Enqueue(inactiveObjects.Peek());
 
         inactiveObjects.Dequeue();
@@ -54,5 +64,10 @@ public class ObjectPool : MonoBehaviour {
     {
         inactiveObjects.Enqueue(activeObjects.Peek());
         activeObjects.Dequeue();
+    }
+
+    public void SpawnNew()
+    {
+        objGen.SpawnObject();
     }
 }

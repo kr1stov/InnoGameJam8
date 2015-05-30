@@ -4,38 +4,57 @@ using System.Collections;
 public class ObjectGenerator : MonoBehaviour
 {
     [SerializeField]
-    private int spawnIntervalMin, spawnIntervalMax;
+    private float spawnDistanceMin, spawnDistanceMax;
+
     [SerializeField]
-    private float minXPos, maxXPos;
+    private bool fixedDistance;
+
     [SerializeField]
     private float minYPos, maxYPos;
 
+    [SerializeField]
+    private bool fixedyPos;
+
     private float timer;
-    private float interval;
     private ObjectPool pool;
+    private Vector3 spawnPosition;
 
     void Start()
     {
-        interval = Random.Range(spawnIntervalMin, spawnIntervalMax);
+        pool = GetComponent<ObjectPool>();
+        pool.objGen = this;
+        if (!fixedDistance)
+        {
+            pool.SpawnDistance = Random.Range(spawnDistanceMin, spawnDistanceMax);
+        }
+        else
+	    {
+            pool.SpawnDistance = spawnDistanceMin;
+	    }
+
+        spawnPosition = new Vector3(this.transform.position.x, pool.GetPrefabPosition().y, pool.GetPrefabPosition().z);
+
+        SpawnObject();
     }
 
-    void Update()
+    public void SpawnObject()
     {
-        timer += Time.deltaTime;
-
-        if (timer > interval)
+        if (!fixedyPos)
         {
-            Vector3 spawnPosition = GetRandomPos();
-            pool.ActivateObj(spawnPosition, Quaternion.identity);
-            interval = Random.Range(spawnIntervalMin, spawnIntervalMax);
+            spawnPosition = GetRandomPos();
+        }
 
-            timer = 0;
+        pool.ActivateObj(spawnPosition, Quaternion.identity);
+
+        if (!fixedDistance)
+        {
+            pool.SpawnDistance = Random.Range(spawnDistanceMin, spawnDistanceMax);
         }
     }
 
     Vector3 GetRandomPos()
     {
-        return new Vector3(Random.Range(minXPos, maxXPos), Random.Range(minYPos, maxYPos), this.transform.position.z);
+        return new Vector3(this.transform.position.x, Random.Range(minYPos, maxYPos), spawnPosition.z);
     }
 
 }
