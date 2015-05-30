@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameCtrl : MonoBehaviour
+public class GameController : MonoBehaviour
 {
     [SerializeField]
     private float levelSpeed;
