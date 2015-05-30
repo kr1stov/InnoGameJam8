@@ -20,6 +20,12 @@ public class ParalaxPoolObject : PoolObject {
     void FixedUpdate()
     {
         float fixedSpeed = speed * Time.deltaTime;
+
+        if (GameController.GameLoading)
+        {
+            fixedSpeed *= GameController.LoadSpeed;
+        }
+
         this.transform.Translate(new Vector3(fixedSpeed, 0, 0));
 
         distance += fixedSpeed;
@@ -27,6 +33,11 @@ public class ParalaxPoolObject : PoolObject {
 
     void OnTriggerEnter(Collider other)
     {
+        if (GameController.GameLoading)
+        {
+            GameController.GameLoading = false;
+        }
+
         Deactivate();
     }
 }

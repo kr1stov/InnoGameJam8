@@ -14,7 +14,16 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private Text scoreText;
 
-    private float distance; 
+    private float distance;
+
+    public static float LoadSpeed = 20f;
+
+    public static bool GameLoading = true;
+
+    void Start()
+    {
+        GameLoading = true;
+    }
 
     void Update()
     {

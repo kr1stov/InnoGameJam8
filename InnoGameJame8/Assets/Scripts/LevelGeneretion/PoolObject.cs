@@ -26,6 +26,12 @@ public class PoolObject : MonoBehaviour
     void FixedUpdate()
     {
         float fixedSpeed = speed * Time.deltaTime;
+
+        if (GameController.GameLoading)
+        {
+            fixedSpeed *= GameController.LoadSpeed;
+        }
+
         this.transform.Translate(new Vector3(-fixedSpeed, 0, 0));
 
         distance += fixedSpeed;
