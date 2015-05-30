@@ -23,7 +23,7 @@ public class ParalaxPoolObject : PoolObject {
 
         if (GameController.GameLoading)
         {
-            fixedSpeed *= GameController.LoadSpeed;
+            fixedSpeed *= GameController.LevelSpeed;
         }
 
         this.transform.Translate(new Vector3(fixedSpeed, 0, 0));
@@ -35,7 +35,7 @@ public class ParalaxPoolObject : PoolObject {
     {
         if (GameController.GameLoading)
         {
-            GameController.GameLoading = false;
+            GameController.InitializeLevel();
         }
 
         Deactivate();
