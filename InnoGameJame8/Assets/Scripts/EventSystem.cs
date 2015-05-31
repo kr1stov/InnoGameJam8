@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
-using UnityStandardAssets.Characters.ThirdPerson;
 
 public class EventSystem : MonoBehaviour {
 
     [SerializeField]
-    private ThirdPersonCharacter player;
+    public ThirdPersonCharacter player;
 
-    public Cloud[] clouds;
+    public List<Cloud> clouds;
 
     [SerializeField]
     private Shrimp shrimp;
@@ -37,18 +36,23 @@ public class EventSystem : MonoBehaviour {
     public delegate void ShrimpCollect();
     public static event ShrimpCollect ShrimpCollectEvent;
 
-    void Start()
+    public void InitializePlayer(ThirdPersonCharacter player)
     {
         player.OnJump += OnPlayerJump;
         player.OnLand += OnPlayerLand;
         player.OnStartRunning += OnPlayerStartRunning;
         player.OnStopRunning += OnPlayerStopRunning;
 
-        for (int i = 0; i < clouds.Length; i++)
-        {
-            clouds[i].CloudHit += OnCloudDestroy;
-        }
+        shrimp.OnCollect += OnShrimpCollect;
+    }
 
+    public void InitializeCloud(Cloud cloud)
+    {
+        cloud.CloudHit += OnCloudDestroy;
+    }
+
+    public void InitializeShrimp(Shrimp shrimp)
+    {
         shrimp.OnCollect += OnShrimpCollect;
     }
 

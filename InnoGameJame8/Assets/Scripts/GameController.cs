@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
 
     private float distance;
 
+    [SerializeField]
     private int score = 0;
 
     public static float LevelSpeed = 10f;
@@ -31,6 +32,7 @@ public class GameController : MonoBehaviour
     {
         GameLoading = true;
         EventSystem.ShrimpCollectEvent += OnShrimpCollect;
+        EventSystem.PlayerLand += OnShrimpCollect;
     }
 
     void Update()
@@ -72,7 +74,7 @@ public class GameController : MonoBehaviour
     private void SpawnPlayer()
     {
         GameObject newObj = (GameObject)Instantiate(PlayerPrefab, PlayerSpawnPoint.transform.position, Quaternion.identity);
-
+        this.GetComponent<EventSystem>().player = newObj.GetComponent<ThirdPersonCharacter>();
     }
 
     public void OnShrimpCollect()

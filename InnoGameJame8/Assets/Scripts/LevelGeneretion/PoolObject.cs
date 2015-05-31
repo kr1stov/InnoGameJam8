@@ -6,7 +6,7 @@ public class PoolObject : MonoBehaviour
     [SerializeField]
     protected float speed;
 
-    private ObjectPool myPool;
+    public ObjectPool myPool;
 
     protected float spawnDistance;
 

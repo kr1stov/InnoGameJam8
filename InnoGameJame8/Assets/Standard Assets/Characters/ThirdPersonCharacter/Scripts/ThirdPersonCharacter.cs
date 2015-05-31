@@ -2,8 +2,6 @@ using UnityEngine;
 
 using System;
 
-namespace UnityStandardAssets.Characters.ThirdPerson
-{
 	[RequireComponent(typeof(Rigidbody))]
 	[RequireComponent(typeof(CapsuleCollider))]
 	[RequireComponent(typeof(Animator))]
@@ -56,6 +54,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 			m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
+            
 		}
 
 
@@ -214,4 +213,3 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             }
         }
 	}
-}

@@ -1,8 +1,6 @@
 using System;
 using UnityEngine;
 
-namespace UnityStandardAssets.Characters.ThirdPerson
-{
     [RequireComponent(typeof (ThirdPersonCharacter))]
     public class ThirdPersonUserControl : MonoBehaviour
     {
@@ -91,4 +89,4 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             Debug.Log("StopRunning fired");
         }
     }
-}
+
