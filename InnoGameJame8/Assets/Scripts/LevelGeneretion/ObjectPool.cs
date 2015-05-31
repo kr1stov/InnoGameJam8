@@ -9,7 +9,7 @@ public class ObjectPool : MonoBehaviour {
     [SerializeField]
     private int numOfObjectsToLoadOnStart;
 
-    private Queue<GameObject> activeObjects, inactiveObjects;
+    private List<GameObject> activeObjects, inactiveObjects;
 
     public Vector3 GetPrefabPosition()
     {
@@ -22,8 +22,8 @@ public class ObjectPool : MonoBehaviour {
     { get; set; }
 
 	void Awake() {
-        activeObjects = new Queue<GameObject>();
-        inactiveObjects = new Queue<GameObject>();
+        activeObjects = new List<GameObject>();
+        inactiveObjects = new List<GameObject>();
 
         int arrIndex = 0;
         for (int i = 0; i < numOfObjectsToLoadOnStart; i++)
@@ -41,11 +41,12 @@ public class ObjectPool : MonoBehaviour {
             Destroy(newObj.GetComponent<BoxCollider>());
 
             parObj.GetComponent<PoolObject>().Initialize(this);
+            parObj.GetComponent<PoolObject>().ScaleX = newObj.GetComponent<MeshFilter>().mesh.bounds.size.x;
             parObj.transform.rotation = new Quaternion(0,0,0,0);
             newObj.transform.SetParent(parObj.transform);
             Destroy(parObj.GetComponent<MeshRenderer>());
 
-            inactiveObjects.Enqueue(parObj);
+            inactiveObjects.Add(parObj);
             arrIndex++;
         }
 	}
@@ -68,20 +69,20 @@ public class ObjectPool : MonoBehaviour {
             newObj.transform.SetParent(parObj.transform);
             Destroy(parObj.GetComponent<MeshRenderer>());
 
-            inactiveObjects.Enqueue(parObj);
+            inactiveObjects.Add(parObj);
         }
 
-        inactiveObjects.Peek().SetActive(true);
-        inactiveObjects.Peek().GetComponent<PoolObject>().Activate(position, SpawnDistance);
-        activeObjects.Enqueue(inactiveObjects.Peek());
+        inactiveObjects[0].SetActive(true);
+        inactiveObjects[0].GetComponent<PoolObject>().Activate(position, SpawnDistance);
+        activeObjects.Add(inactiveObjects[0]);
 
-        inactiveObjects.Dequeue();
+        inactiveObjects.RemoveAt(0);
     }
 
-    public void DeactivateObj()
+    public void DeactivateObj(GameObject obj)
     {
-        inactiveObjects.Enqueue(activeObjects.Peek());
-        activeObjects.Dequeue();
+        inactiveObjects.Add(obj);
+        activeObjects.Remove(obj);
     }
 
     public void SpawnNew()

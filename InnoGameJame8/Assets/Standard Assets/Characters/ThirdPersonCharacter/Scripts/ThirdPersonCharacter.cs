@@ -17,6 +17,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		[SerializeField] float m_MoveSpeedMultiplier = 1f;
 		[SerializeField] float m_AnimSpeedMultiplier = 1f;
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
+        [SerializeField]
+        float m_Speed;
 
 		Rigidbody m_Rigidbody;
 		Animator m_Animator;
@@ -123,6 +125,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			if (m_IsGrounded && move.magnitude > 0)
 			{
 				m_Animator.speed = m_AnimSpeedMultiplier;
+                transform.Translate(move* Time.deltaTime * m_Speed);
 
                 if (!m_Running)
                 {
@@ -156,7 +159,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				// jump!
 				m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
 				m_IsGrounded = false;
-				m_Animator.applyRootMotion = false;
 				m_GroundCheckDistance = 0.5f;
 
                 if (OnJump != null)
@@ -173,20 +175,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
 		}
 
-		public void OnAnimatorMove()
-		{
-			// we implement this function to override the default root motion.
-			// this allows us to modify the positional speed before it's applied.
-			if (m_IsGrounded && Time.deltaTime > 0)
-			{
-				Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
-
-				// we preserve the existing y part of the current velocity.
-				v.y = m_Rigidbody.velocity.y;
-				m_Rigidbody.velocity = v;
-			}
-		}
-
 
 		void CheckGroundStatus()
 		{
@@ -201,13 +189,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			{
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
-				m_Animator.applyRootMotion = true;
+				//m_Animator.applyRootMotion = true;
 			}
 			else
 			{
 				m_IsGrounded = false;
 				m_GroundNormal = Vector3.up;
-				m_Animator.applyRootMotion = false;
+				//m_Animator.applyRootMotion = false;
 			}
 		}
 
