@@ -28,6 +28,8 @@ public class GameController : MonoBehaviour
 
     public static bool GameLoading = true;
 
+    static bool GameOver = false;
+
     void Start()
     {
         GameLoading = true;
@@ -56,6 +58,10 @@ public class GameController : MonoBehaviour
             distance += distanceSpeed * Time.deltaTime * LevelSpeed;
             int dis = (int)distance;
             distanceText.text = dis.ToString();
+        }
+        if (GameOver)
+        {
+            PlayerPrefs.SetInt("playerScore", score);
         }
     }
 
