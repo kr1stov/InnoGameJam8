@@ -7,9 +7,12 @@ public class Cloud : MonoBehaviour {
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Melon" && CloudHit!= null)
+        if (other.gameObject.tag == "Melon")
         {
-            CloudHit();
+            if (CloudHit != null)
+            {
+                CloudHit();
+            }
 
             gameObject.GetComponent<PoolObject>().Deactivate();
         }
