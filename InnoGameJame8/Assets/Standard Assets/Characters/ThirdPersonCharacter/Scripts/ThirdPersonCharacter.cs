@@ -199,7 +199,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			}
 		}
 
-        void OnTriggerEnter(Collision other)
+        void OnCollisionEnter(Collision other)
         {
             if (other.gameObject.tag == "Ground")
             {
@@ -210,7 +210,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             }
             else if (other.gameObject.name == "Shrimp")
             {
-                Destroy(other.gameObject);
+
             }
             else if (other.gameObject.name == "SandStorm")
             {
