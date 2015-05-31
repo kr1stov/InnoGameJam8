@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using System;
+
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
 	[RequireComponent(typeof(Rigidbody))]
@@ -15,6 +17,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		[SerializeField] float m_MoveSpeedMultiplier = 1f;
 		[SerializeField] float m_AnimSpeedMultiplier = 1f;
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
+        [SerializeField]
+        float m_Speed;
 
 		Rigidbody m_Rigidbody;
 		Animator m_Animator;
@@ -28,7 +32,19 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		Vector3 m_CapsuleCenter;
 		CapsuleCollider m_Capsule;
 		bool m_Crouching;
+        bool m_Running;
 
+        public delegate void Jump();
+        public event Jump OnJump;
+
+        public delegate void Land();
+        public event Land OnLand;
+
+        public delegate void StartRunning();
+        public event StartRunning OnStartRunning;
+
+        public delegate void StopRunning();
+        public event StopRunning OnStopRunning;
 
 		void Start()
 		{
@@ -109,11 +125,29 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			if (m_IsGrounded && move.magnitude > 0)
 			{
 				m_Animator.speed = m_AnimSpeedMultiplier;
+                transform.Translate(move* Time.deltaTime * m_Speed);
+
+                if (!m_Running)
+                {
+                    if (OnStartRunning != null)
+                    {
+                        OnStartRunning();
+                    }
+
+                    m_Running = true;
+                }
 			}
 			else
 			{
 				// don't use that while airborne
 				m_Animator.speed = 1;
+
+                if (OnStopRunning != null && m_Running)
+                {
+                    OnStopRunning();
+
+                    m_Running = false;
+                }
 			}
 		}
 
@@ -125,8 +159,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				// jump!
 				m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
 				m_IsGrounded = false;
-				m_Animator.applyRootMotion = false;
 				m_GroundCheckDistance = 0.5f;
+
+                if (OnJump != null)
+                {
+                    OnJump();
+                }
 			}
 		}
 
@@ -135,20 +173,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			// help the character turn faster (this is in addition to root rotation in the animation)
 			float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
 			transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
-		}
-
-		public void OnAnimatorMove()
-		{
-			// we implement this function to override the default root motion.
-			// this allows us to modify the positional speed before it's applied.
-			if (m_IsGrounded && Time.deltaTime > 0)
-			{
-				Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
-
-				// we preserve the existing y part of the current velocity.
-				v.y = m_Rigidbody.velocity.y;
-				m_Rigidbody.velocity = v;
-			}
 		}
 
 
@@ -165,14 +189,33 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			{
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
-				m_Animator.applyRootMotion = true;
+				//m_Animator.applyRootMotion = true;
 			}
 			else
 			{
 				m_IsGrounded = false;
 				m_GroundNormal = Vector3.up;
-				m_Animator.applyRootMotion = false;
+				//m_Animator.applyRootMotion = false;
 			}
 		}
+
+        void OnTriggerEnter(Collision other)
+        {
+            if (other.gameObject.tag == "Ground")
+            {
+                if (OnLand != null)
+                {
+                    OnLand();
+                }
+            }
+            else if (other.gameObject.name == "Shrimp")
+            {
+                Destroy(other.gameObject);
+            }
+            else if (other.gameObject.name == "SandStorm")
+            {
+                Time.timeScale = 0;
+            }
+        }
 	}
 }

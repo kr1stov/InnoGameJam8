@@ -16,6 +16,8 @@ public class PoolObject : MonoBehaviour
 
     public Quaternion startRotation;
 
+    public float ScaleX;
+
     void Update()
     {
         if (distance > spawnDistance & !spawnedNew)
@@ -43,12 +45,12 @@ public class PoolObject : MonoBehaviour
     {
         this.transform.position = position;
         startRotation = this.transform.rotation;
-        this.spawnDistance = distance + (this.transform.lossyScale.x);
+        this.spawnDistance = distance + (ScaleX);
     }
 
     public virtual void Deactivate()
     {
-        myPool.DeactivateObj();
+        myPool.DeactivateObj(this.gameObject);
 
         if (!spawnedNew)
         {
