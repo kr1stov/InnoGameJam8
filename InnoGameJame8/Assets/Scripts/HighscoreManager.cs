@@ -85,6 +85,10 @@ public class HighscoreManager : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Return) && !leaderboardDisplayed){
 			DisplayLeaderBoards();
 		}
+        else if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            Application.LoadLevel(0);
+        }
 	}
 
 	void BuildDummyScores() {

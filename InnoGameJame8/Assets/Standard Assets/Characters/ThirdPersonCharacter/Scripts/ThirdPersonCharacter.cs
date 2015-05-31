@@ -1,6 +1,6 @@
+using System;
 using UnityEngine;
 
-using System;
 
 	[RequireComponent(typeof(Rigidbody))]
 	[RequireComponent(typeof(CapsuleCollider))]

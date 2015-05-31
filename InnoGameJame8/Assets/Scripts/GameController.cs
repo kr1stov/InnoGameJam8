@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
     private Text scoreText;
 
     [SerializeField]
-    private GameObject LoadScreen, StartScreen, PlayerSpawnPoint, PlayerPrefab;
+    private GameObject LoadScreen, StartScreen, PlayerSpawnPoint, PlayerPrefab, GameOverScreen;
 
     private float distance;
 
@@ -39,6 +39,10 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
         if (!GameLoading)
         {
             if (!playerSpwaned)
@@ -59,9 +63,15 @@ public class GameController : MonoBehaviour
             int dis = (int)distance;
             distanceText.text = dis.ToString();
         }
-        if (GameOver)
+        if (Time.timeScale == 0)
         {
             PlayerPrefs.SetInt("playerScore", score);
+            GameOverScreen.SetActive(true);
+            
+            if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                Application.LoadLevel("highscore");
+            }
         }
     }
 
