@@ -4,7 +4,7 @@ using System.Collections;
 public class Cloud : MonoBehaviour {
     public delegate void CloudEvent();
     public event CloudEvent CloudHit;
-
+    private ParticleSystem part;
     private PoolObject poolObj;
 
     void Start()
@@ -21,7 +21,6 @@ public class Cloud : MonoBehaviour {
             {
                 CloudHit();
             }
-
             gameObject.GetComponent<PoolObject>().Deactivate();
         }
     }

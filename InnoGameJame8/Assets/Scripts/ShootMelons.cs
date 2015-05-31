@@ -17,9 +17,12 @@ public class ShootMelons : MonoBehaviour {
     [SerializeField]
     private GameObject[] melons;
 
+    public Animator anim;
+
 	// Use this for initialization
 	void Start () {
         target = GameObject.FindGameObjectWithTag("Target").transform;
+        anim = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -27,7 +30,7 @@ public class ShootMelons : MonoBehaviour {
         if(Input.GetButtonDown("Shoot"))
         {
             melons = GameObject.FindGameObjectsWithTag("Melon");
-
+            anim.SetTrigger("Attack");
             foreach(GameObject m in melons)
             {
                 distanceVector = target.position - m.transform.position;

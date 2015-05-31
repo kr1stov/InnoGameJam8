@@ -85,9 +85,13 @@ public class HighscoreManager : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Return) && !leaderboardDisplayed){
 			DisplayLeaderBoards();
 		}
-        else if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        else if (Input.GetKeyDown(KeyCode.Return))
         {
             Application.LoadLevel(0);
+        }
+        else if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
         }
 	}
 

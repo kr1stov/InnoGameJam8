@@ -30,6 +30,12 @@ public class GameController : MonoBehaviour
 
     static bool GameOver = false;
 
+    float speedIncrease = 1f;
+
+    float timer;
+
+    float delay = 10f;
+
     void Start()
     {
         GameLoading = true;
@@ -39,6 +45,14 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        timer += Time.deltaTime;
+
+        if (timer >= delay)
+        {
+            LevelSpeed += speedIncrease;
+            timer = 0;
+        }
+
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
@@ -65,10 +79,11 @@ public class GameController : MonoBehaviour
         }
         if (Time.timeScale == 0)
         {
+            score *= (int)distance;
             PlayerPrefs.SetInt("playerScore", score);
             GameOverScreen.SetActive(true);
             
-            if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 Application.LoadLevel("highscore");
             }
