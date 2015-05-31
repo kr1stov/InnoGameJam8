@@ -10,7 +10,6 @@ public class Cloud : MonoBehaviour {
     void Start()
     {
         poolObj = GetComponent<PoolObject>();
-        part = gameObject.GetComponentInChildren<ParticleSystem>();
         GameObject.FindGameObjectWithTag("GameCtrl").GetComponent<EventSystem>().InitializeCloud(this);
     }
 
@@ -22,7 +21,6 @@ public class Cloud : MonoBehaviour {
             {
                 CloudHit();
             }
-            part.Emit(1);
             gameObject.GetComponent<PoolObject>().Deactivate();
         }
     }

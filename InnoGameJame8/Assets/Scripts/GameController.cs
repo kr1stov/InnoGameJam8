@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour
 
     static bool GameOver = false;
 
-    float speedIncrease = 2f;
+    float speedIncrease = 1f;
 
     float timer;
 
