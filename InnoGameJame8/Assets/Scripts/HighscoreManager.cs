@@ -89,6 +89,10 @@ public class HighscoreManager : MonoBehaviour {
         {
             Application.LoadLevel(0);
         }
+        else if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
 	}
 
 	void BuildDummyScores() {
