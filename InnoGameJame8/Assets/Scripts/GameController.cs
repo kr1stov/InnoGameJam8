@@ -83,7 +83,7 @@ public class GameController : MonoBehaviour
             PlayerPrefs.SetInt("playerScore", score);
             GameOverScreen.SetActive(true);
             
-            if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 Application.LoadLevel("highscore");
             }
