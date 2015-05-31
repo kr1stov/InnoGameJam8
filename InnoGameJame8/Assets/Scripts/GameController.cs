@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour
 
     static bool GameOver = false;
 
-    float speedIncrease = 0.5f;
+    float speedIncrease = 2f;
 
     float timer;
 
@@ -79,6 +79,7 @@ public class GameController : MonoBehaviour
         }
         if (Time.timeScale == 0)
         {
+            score *= (int)distance;
             PlayerPrefs.SetInt("playerScore", score);
             GameOverScreen.SetActive(true);
             
