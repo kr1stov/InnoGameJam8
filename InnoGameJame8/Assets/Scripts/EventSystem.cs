@@ -7,7 +7,9 @@ public class EventSystem : MonoBehaviour {
 
     [SerializeField]
     private ThirdPersonCharacter player;
-    
+
+    public Cloud[] clouds;
+
     [SerializeField]
     private GameObject shrimp;
     
@@ -41,6 +43,11 @@ public class EventSystem : MonoBehaviour {
         player.OnLand += OnPlayerLand;
         player.OnStartRunning += OnPlayerStartRunning;
         player.OnStopRunning += OnPlayerStopRunning;
+
+        for (int i = 0; i < clouds.Length; i++)
+        {
+            clouds[i].CloudHit += OnCloudDestroy;
+        }
     }
 
     public void OnPlayerJump()
