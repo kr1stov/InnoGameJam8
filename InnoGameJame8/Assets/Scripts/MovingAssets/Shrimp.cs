@@ -2,14 +2,19 @@
 using System.Collections;
 
 public class Shrimp : MonoBehaviour {
+    public delegate void ShrimpDelegate();
+    public event ShrimpDelegate OnCollect;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Player")
+	    {
+            if (OnCollect != null)
+            {
+                OnCollect();
+            }
+
+            GetComponent<PoolObject>().Deactivate();
+	    }
+    }
 }

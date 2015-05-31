@@ -11,7 +11,7 @@ public class EventSystem : MonoBehaviour {
     public Cloud[] clouds;
 
     [SerializeField]
-    private GameObject shrimp;
+    private Shrimp shrimp;
     
     [SerializeField]
     private GameObject melon1, melon2;
@@ -48,6 +48,8 @@ public class EventSystem : MonoBehaviour {
         {
             clouds[i].CloudHit += OnCloudDestroy;
         }
+
+        shrimp.OnCollect += OnShrimpCollect;
     }
 
     public void OnPlayerJump()
