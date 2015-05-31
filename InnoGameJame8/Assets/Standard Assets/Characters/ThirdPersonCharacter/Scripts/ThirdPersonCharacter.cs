@@ -208,6 +208,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                     OnLand();
                 }
             }
+            else if (other.gameObject.name == "Shrimp")
+            {
+
+            }
+            else if (other.gameObject.name == "SandStorm")
+            {
+                Time.timeScale = 0;
+            }
         }
 	}
 }
