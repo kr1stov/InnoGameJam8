@@ -15,13 +15,15 @@ public class GameController : MonoBehaviour
     private Text scoreText;
 
     [SerializeField]
-    private GameObject LoadScreen, StartScreen;
+    private GameObject LoadScreen, StartScreen, PlayerSpawnPoint, PlayerPrefab;
 
     private float distance;
 
     public static int Score = 0;
 
     public static float LevelSpeed = 10f;
+
+    static bool playerSpwaned;
 
     public static bool GameLoading = true;
 
@@ -34,6 +36,11 @@ public class GameController : MonoBehaviour
     {
         if (!GameLoading)
         {
+            if (!playerSpwaned)
+            {
+                SpawnPlayer();
+                playerSpwaned = true;
+            }
             if (LevelSpeed <= 1)
             {
                 if (LoadScreen)
@@ -56,7 +63,14 @@ public class GameController : MonoBehaviour
 
     public static void InitializeLevel()
     {
-        GameLoading = false;
         LevelSpeed = 0f;
+        GameLoading = false;
+        playerSpwaned = false;
+    }
+
+    private void SpawnPlayer()
+    {
+        GameObject newObj = (GameObject)Instantiate(PlayerPrefab, PlayerSpawnPoint.transform.position, Quaternion.identity);
+
     }
 }
