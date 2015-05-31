@@ -2,14 +2,19 @@
 using System.Collections;
 
 public class Melon : MonoBehaviour {
+    public delegate void MelonEvent();
+    public event MelonEvent MelonHit;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    void Start()
+    {
+        GameObject.FindGameObjectWithTag("GameCtrl").GetComponent<EventSystem>().InitializeMelon(this);
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+            if (MelonHit != null)
+            {
+                MelonHit();
+            }
+    }
 }

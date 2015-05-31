@@ -18,15 +18,12 @@ public class ObjectPool : MonoBehaviour {
 
     public ObjectGenerator objGen { get; set; }
 
-    public EventSystem EventSys;
-
     public float SpawnDistance
     { get; set; }
 
 	void Awake() {
         activeObjects = new List<GameObject>();
         inactiveObjects = new List<GameObject>();
-        EventSys = GameObject.FindGameObjectWithTag("GameCtrl").GetComponent<EventSystem>();
 
         int arrIndex = 0;
         for (int i = 0; i < numOfObjectsToLoadOnStart; i++)

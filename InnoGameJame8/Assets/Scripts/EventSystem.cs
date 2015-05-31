@@ -56,6 +56,11 @@ public class EventSystem : MonoBehaviour {
         shrimp.OnCollect += OnShrimpCollect;
     }
 
+    public void InitializeMelon(Melon melon)
+    {
+         melon.MelonHit += OnMelonHit;
+    }
+
     public void OnPlayerJump()
     {
         if (PlayerJump != null)
