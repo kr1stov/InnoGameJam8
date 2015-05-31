@@ -25,11 +25,14 @@ public class ParalaxPoolObject : PoolObject {
 
     void OnTriggerEnter(Collider other)
     {
-        if (GameController.GameLoading)
+        if (other.gameObject.name == "Deadzone")
         {
-            GameController.InitializeLevel();
-        }
+            if (GameController.GameLoading)
+            {
+                GameController.InitializeLevel();
+            }
 
-        Deactivate();
+            Deactivate();
+        }
     }
 }

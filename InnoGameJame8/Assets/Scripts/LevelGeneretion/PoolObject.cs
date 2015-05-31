@@ -65,6 +65,9 @@ public class PoolObject : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Deactivate();
+        if (other.gameObject.name == "Deadzone")
+        {
+            Deactivate();
+        }
     }
 }

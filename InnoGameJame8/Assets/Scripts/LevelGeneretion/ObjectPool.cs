@@ -41,12 +41,13 @@ public class ObjectPool : MonoBehaviour {
             Destroy(newObj.GetComponent<BoxCollider>());
 
             parObj.GetComponent<PoolObject>().Initialize(this);
-            parObj.GetComponent<PoolObject>().ScaleX = newObj.GetComponent<MeshFilter>().mesh.bounds.size.x;
+            parObj.GetComponent<PoolObject>().ScaleX = newObj.transform.lossyScale.x;
             parObj.transform.rotation = new Quaternion(0,0,0,0);
             newObj.transform.SetParent(parObj.transform);
             Destroy(parObj.GetComponent<MeshRenderer>());
 
             inactiveObjects.Add(parObj);
+            parObj.SetActive(false); 
             arrIndex++;
         }
 	}
@@ -70,6 +71,7 @@ public class ObjectPool : MonoBehaviour {
             Destroy(parObj.GetComponent<MeshRenderer>());
 
             inactiveObjects.Add(parObj);
+            parObj.SetActive(false); 
         }
 
         inactiveObjects[0].SetActive(true);

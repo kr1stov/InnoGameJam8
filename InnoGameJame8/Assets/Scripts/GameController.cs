@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
 
     private float distance;
 
-    public static int Score = 0;
+    private int score = 0;
 
     public static float LevelSpeed = 10f;
 
@@ -30,6 +30,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         GameLoading = true;
+        EventSystem.ShrimpCollectEvent += OnShrimpCollect;
     }
 
     void Update()
@@ -41,7 +42,7 @@ public class GameController : MonoBehaviour
                 SpawnPlayer();
                 playerSpwaned = true;
             }
-            if (LevelSpeed <= 1)
+            if (LevelSpeed <= 3)
             {
                 if (LoadScreen)
                 {
@@ -72,5 +73,11 @@ public class GameController : MonoBehaviour
     {
         GameObject newObj = (GameObject)Instantiate(PlayerPrefab, PlayerSpawnPoint.transform.position, Quaternion.identity);
 
+    }
+
+    public void OnShrimpCollect()
+    {
+        score++;
+        scoreText.text = score.ToString();
     }
 }
