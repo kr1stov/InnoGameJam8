@@ -90,8 +90,8 @@ public class GameController : MonoBehaviour
     private void SpawnPlayer()
     {
         GameObject newObj = (GameObject)Instantiate(PlayerPrefab, PlayerSpawnPoint.transform.position, Quaternion.identity);
-        this.GetComponent<EventSystem>().player = newObj.GetComponent<ThirdPersonCharacter>();
-    }
+        this.GetComponent<EventSystem>().InitializePlayer(newObj.GetComponent<ThirdPersonCharacter>());
+		}
 
     public void OnShrimpCollect()
     {
