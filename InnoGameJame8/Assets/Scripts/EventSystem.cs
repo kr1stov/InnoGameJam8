@@ -38,6 +38,7 @@ public class EventSystem : MonoBehaviour {
 
     public void InitializePlayer(ThirdPersonCharacter player)
     {
+        this.player = player;
         player.OnJump += OnPlayerJump;
         player.OnLand += OnPlayerLand;
         player.OnStartRunning += OnPlayerStartRunning;
